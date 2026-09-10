@@ -82,19 +82,17 @@ public class CustomBoardRender extends BaseBoardRender {
 
         gc.save();
 
-        // 阴影改成椭圆：左右收窄，上下拉长
-        // 效果：刚露出来的地方很窄，往下弯出去的很快
-        double shadowRadiusX = r * 1.04;
-        double shadowRadiusY = r * 1.04;
-        double shadowOffsetX = -piece * 0.06;
-        double shadowOffsetY = piece * 0.10;
+        double shadowRadiusX = r * 1.07;
+        double shadowRadiusY = r * 1.10;
+        double shadowOffsetX = -piece * 0.05;
+        double shadowOffsetY = piece * 0.09;
 
         javafx.scene.paint.RadialGradient shadowGradient = new javafx.scene.paint.RadialGradient(
                 0, 0, 0.5, 0.5, 0.5, true, javafx.scene.paint.CycleMethod.NO_CYCLE,
                 new javafx.scene.paint.Stop(0.0, javafx.scene.paint.Color.rgb(0, 0, 0, 1.0)),
-                new javafx.scene.paint.Stop(0.62, javafx.scene.paint.Color.rgb(0, 0, 0, 1.0)),
-                new javafx.scene.paint.Stop(0.80, javafx.scene.paint.Color.rgb(0, 0, 0, 0.75)),
-                new javafx.scene.paint.Stop(0.90, javafx.scene.paint.Color.rgb(0, 0, 0, 0.0)),
+                new javafx.scene.paint.Stop(0.62, javafx.scene.paint.Color.rgb(0, 0, 0, 0.98)),
+                new javafx.scene.paint.Stop(0.80, javafx.scene.paint.Color.rgb(0, 0, 0, 0.72)),
+                new javafx.scene.paint.Stop(0.92, javafx.scene.paint.Color.rgb(0, 0, 0, 0.18)),
                 new javafx.scene.paint.Stop(1.0, javafx.scene.paint.Color.rgb(0, 0, 0, 0.0))
         );
         gc.setFill(shadowGradient);
