@@ -82,17 +82,20 @@ public class CustomBoardRender extends BaseBoardRender {
 
         gc.save();
 
-        double shadowRadiusX = r * 1.12;
-        double shadowRadiusY = r * 1.12;
-        double shadowOffsetX = -piece * 0.05;
-        double shadowOffsetY = piece * 0.07;
+        // 光源在左上方，阴影投向右下方
+        double shadowRadiusX = r * 1.04; // 阴影比棋子稍微大一点点
+        double shadowRadiusY = r * 1.06;
+        double shadowOffsetX = piece * 0.10; // 向右偏
+        double shadowOffsetY = piece * 0.12; // 向下偏
 
         javafx.scene.paint.RadialGradient shadowGradient = new javafx.scene.paint.RadialGradient(
                 0, 0, 0.5, 0.5, 0.5, true, javafx.scene.paint.CycleMethod.NO_CYCLE,
-                new javafx.scene.paint.Stop(0.0, javafx.scene.paint.Color.rgb(0, 0, 0, 1.0)),
-                new javafx.scene.paint.Stop(0.62, javafx.scene.paint.Color.rgb(0, 0, 0, 0.98)),
-                new javafx.scene.paint.Stop(0.80, javafx.scene.paint.Color.rgb(0, 0, 0, 0.72)),
-                new javafx.scene.paint.Stop(0.92, javafx.scene.paint.Color.rgb(0, 0, 0, 0.18)),
+                // 核心更黑、更实
+                new javafx.scene.paint.Stop(0.0, javafx.scene.paint.Color.rgb(0, 0, 0, 0.85)),
+                new javafx.scene.paint.Stop(0.65, javafx.scene.paint.Color.rgb(0, 0, 0, 0.80)),
+                // 边缘快速收掉，制造图里那种清晰的轮廓
+                new javafx.scene.paint.Stop(0.85, javafx.scene.paint.Color.rgb(0, 0, 0, 0.35)),
+                new javafx.scene.paint.Stop(0.95, javafx.scene.paint.Color.rgb(0, 0, 0, 0.0)),
                 new javafx.scene.paint.Stop(1.0, javafx.scene.paint.Color.rgb(0, 0, 0, 0.0))
         );
         gc.setFill(shadowGradient);
