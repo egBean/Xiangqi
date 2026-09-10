@@ -82,9 +82,12 @@ public class CustomBoardRender extends BaseBoardRender {
 
         gc.save();
 
-        double shadowOffsetX = -piece * 0.05;
+        // 阴影改成椭圆：左右收窄，上下拉长
+        // 效果：刚露出来的地方很窄，往下弯出去的很快
+        double shadowRadiusX = r * 1.04;
+        double shadowRadiusY = r * 1.04;
+        double shadowOffsetX = -piece * 0.06;
         double shadowOffsetY = piece * 0.10;
-        double shadowRadius = r * 1.08;
 
         javafx.scene.paint.RadialGradient shadowGradient = new javafx.scene.paint.RadialGradient(
                 0, 0, 0.5, 0.5, 0.5, true, javafx.scene.paint.CycleMethod.NO_CYCLE,
@@ -103,12 +106,12 @@ public class CustomBoardRender extends BaseBoardRender {
                     int x = pos + piece * getReverseX(j, isReverse);
                     int y = pos + piece * getReverseY(i, isReverse);
 
-                    // 阴影也跟着棋子视觉中心偏移，保证两者对齐
+                    // 椭圆：横向窄、纵向长
                     gc.fillOval(
-                            x - shadowRadius + shadowOffsetX + offX,
-                            y - shadowRadius + shadowOffsetY + offY,
-                            2 * shadowRadius,
-                            2 * shadowRadius
+                            x - shadowRadiusX + shadowOffsetX + offX,
+                            y - shadowRadiusY + shadowOffsetY + offY,
+                            2 * shadowRadiusX,
+                            2 * shadowRadiusY
                     );
 
                     gc.drawImage(img, x - r + offX, y - r + offY, 2 * r, 2 * r);
