@@ -82,8 +82,8 @@ public class CustomBoardRender extends BaseBoardRender {
 
         gc.save();
 
-        double shadowRadiusX = r * 1.07;
-        double shadowRadiusY = r * 1.10;
+        double shadowRadiusX = r * 1.12;
+        double shadowRadiusY = r * 1.14;
         double shadowOffsetX = -piece * 0.05;
         double shadowOffsetY = piece * 0.09;
 
