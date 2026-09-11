@@ -59,8 +59,9 @@ public class CustomBoardRender extends BaseBoardRender {
 
 
     @Override
-    public void drawPieces(int pos, int piece, char[][] board, boolean isReverse, ChessBoard.BoardSize style,boolean pieceShadow) {
-        int r = (piece - piece / 16) / 2;
+    public void drawPieces(int pos, int piece, char[][] board, boolean isReverse, ChessBoard.BoardSize style, boolean pieceShadow, double pieceScale) {
+        // 棋子半径跟着 scale 缩放
+        int r = (int) Math.round((piece - piece / 16) / 2 * pieceScale);
 
         // 图片自带阴影时，视觉中心不在图片几何中心，需要偏移
         double offX = r * this.getPieceOffsetX();
@@ -84,8 +85,9 @@ public class CustomBoardRender extends BaseBoardRender {
 
         double shadowRadiusX = r * 1.07;
         double shadowRadiusY = r * 1.10;
-        double shadowOffsetX = piece * 0.05;
-        double shadowOffsetY = piece * 0.09;
+        // 阴影的偏移也跟着缩放，才能和缩小的棋子保持相同比例
+        double shadowOffsetX = piece * 0.05 * pieceScale;
+        double shadowOffsetY = piece * 0.09 * pieceScale;
 
         javafx.scene.paint.RadialGradient shadowGradient = new javafx.scene.paint.RadialGradient(
                 0, 0, 0.5, 0.5, 0.5, true, javafx.scene.paint.CycleMethod.NO_CYCLE,

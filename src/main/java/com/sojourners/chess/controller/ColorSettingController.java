@@ -50,6 +50,8 @@ public class ColorSettingController {
     @FXML private Spinner<Double> pieceOffsetX;
     @FXML private Spinner<Double> pieceOffsetY;
 
+    @FXML private Spinner<Double> pieceScale;
+
     // 默认偏移量（相对棋子半径的比例）
     private static final double DEFAULT_OFFSET_X = 0.0;
     private static final double DEFAULT_OFFSET_Y = 0.0;
@@ -81,8 +83,10 @@ public class ColorSettingController {
         } else {
             shadowPiece.setSelected(true);
         }
-        configureOpacityDouble(pieceOffsetX, prop.getPieceOffsetX());
-        configureOpacityDouble(pieceOffsetY, prop.getPieceOffsetY());
+        configureOpacityDouble(pieceOffsetX, prop.getPieceOffsetX(),-1.0);
+        configureOpacityDouble(pieceOffsetY, prop.getPieceOffsetY(),-1.0);
+
+        configureOpacityDouble(pieceScale, prop.getPieceScale(),0.1);
     }
 
     @FXML
@@ -120,6 +124,7 @@ public class ColorSettingController {
     public void resetPieceOffset() {
         pieceOffsetX.getValueFactory().setValue(DEFAULT_OFFSET_X);
         pieceOffsetY.getValueFactory().setValue(DEFAULT_OFFSET_Y);
+        pieceScale.getValueFactory().setValue(1.00);
     }
 
     @FXML
@@ -141,6 +146,8 @@ public class ColorSettingController {
 
         prop.setPieceOffsetX(pieceOffsetX.getValue()==null?0:pieceOffsetX.getValue());
         prop.setPieceOffsetY(pieceOffsetY.getValue()==null?0:pieceOffsetY.getValue());
+
+        prop.setPieceScale(pieceScale.getValue()==null?0:pieceScale.getValue());
         prop.save();
         saved = true;
         close();
@@ -162,8 +169,8 @@ public class ColorSettingController {
     }
 
 
-    private void configureOpacityDouble(Spinner<Double> spinner, double value) {
-        spinner.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(-1.0, 1.0, value, 0.01));
+    private void configureOpacityDouble(Spinner<Double> spinner, double value,Double minLimit) {
+        spinner.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(minLimit, 2.0, value, 0.01));
         spinner.getEditor().setTextFormatter(new javafx.scene.control.TextFormatter<>(change -> {
             String newText = change.getControlNewText();
             // 允许：空、负号、纯数字、带小数点的数字（最多两位小数）

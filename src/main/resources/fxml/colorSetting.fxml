@@ -138,23 +138,34 @@
                         <rowConstraints>
                             <RowConstraints />
                             <RowConstraints />
+                            <RowConstraints />
                         </rowConstraints>
 
+                        <!-- 第 1 行：X 偏移 -->
                         <Label text="X 偏移" GridPane.columnIndex="0" GridPane.rowIndex="0" />
                         <Spinner fx:id="pieceOffsetX" editable="true" prefWidth="120.0"
                                  GridPane.columnIndex="1" GridPane.rowIndex="0" />
                         <Label text="(正=右，负=左)" GridPane.columnIndex="2" GridPane.rowIndex="0"
                                style="-fx-text-fill: gray; -fx-font-size: 11px;" />
 
+                        <!-- 第 2 行：Y 偏移 -->
                         <Label text="Y 偏移" GridPane.columnIndex="0" GridPane.rowIndex="1" />
                         <Spinner fx:id="pieceOffsetY" editable="true" prefWidth="120.0"
                                  GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <Label text="(正=下，负=上)" GridPane.columnIndex="2" GridPane.rowIndex="1"
                                style="-fx-text-fill: gray; -fx-font-size: 11px;" />
 
+                        <!-- 第 3 行：棋子缩放 -->
+                        <Label text="棋子缩放" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                        <Spinner fx:id="pieceScale" editable="true" prefWidth="120.0"
+                                 GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Label text="(0.1 ~ 2.0)" GridPane.columnIndex="2" GridPane.rowIndex="2"
+                               style="-fx-text-fill: gray; -fx-font-size: 11px;" />
+
+                        <!-- 恢复默认：跨 3 行 -->
                         <Button mnemonicParsing="false" onAction="#resetPieceOffset"
                                 text="恢复默认" GridPane.columnIndex="4" GridPane.rowIndex="0"
-                                GridPane.rowSpan="2" />
+                                GridPane.rowSpan="3" />
                     </GridPane>
                 </VBox>
             </content>

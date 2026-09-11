@@ -91,6 +91,16 @@ public class Properties implements Serializable {
 
     private Double pieceOffsetY;
 
+    private Double pieceScale;
+
+    public Double getPieceScale() {
+        return pieceScale==null ? 1.00: pieceScale;
+    }
+
+    public void setPieceScale(Double pieceScale) {
+        this.pieceScale = pieceScale;
+    }
+
     private MoveRule moveRule;
 
     private Boolean bookSwitch;
