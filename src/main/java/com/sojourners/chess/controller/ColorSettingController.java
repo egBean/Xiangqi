@@ -83,10 +83,10 @@ public class ColorSettingController {
         } else {
             shadowPiece.setSelected(true);
         }
-        configureOpacityDouble(pieceOffsetX, prop.getPieceOffsetX(),-1.0);
-        configureOpacityDouble(pieceOffsetY, prop.getPieceOffsetY(),-1.0);
+        configureOpacityDouble(pieceOffsetX, prop.getPieceOffsetX(),-1.0,1.0);
+        configureOpacityDouble(pieceOffsetY, prop.getPieceOffsetY(),-1.0,1.0);
 
-        configureOpacityDouble(pieceScale, prop.getPieceScale(),0.1);
+        configureOpacityDouble(pieceScale, prop.getPieceScale(),0.1,2.0);
     }
 
     @FXML
@@ -169,8 +169,8 @@ public class ColorSettingController {
     }
 
 
-    private void configureOpacityDouble(Spinner<Double> spinner, double value,Double minLimit) {
-        spinner.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(minLimit, 2.0, value, 0.01));
+    private void configureOpacityDouble(Spinner<Double> spinner, double value,Double minLimit,Double maxLimit) {
+        spinner.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(minLimit, maxLimit, value, 0.01));
         spinner.getEditor().setTextFormatter(new javafx.scene.control.TextFormatter<>(change -> {
             String newText = change.getControlNewText();
             // 允许：空、负号、纯数字、带小数点的数字（最多两位小数）
