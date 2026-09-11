@@ -84,7 +84,7 @@ public class CustomBoardRender extends BaseBoardRender {
 
         double shadowRadiusX = r * 1.07;
         double shadowRadiusY = r * 1.10;
-        double shadowOffsetX = -piece * 0.05;
+        double shadowOffsetX = piece * 0.05;
         double shadowOffsetY = piece * 0.09;
 
         javafx.scene.paint.RadialGradient shadowGradient = new javafx.scene.paint.RadialGradient(
