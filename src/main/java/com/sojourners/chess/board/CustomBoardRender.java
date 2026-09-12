@@ -83,7 +83,7 @@ public class CustomBoardRender extends BaseBoardRender {
         }
 
         DropShadow ambient = new DropShadow();
-        ambient.setRadius(r * 0.22);
+        ambient.setRadius(r * 0.18);
         ambient.setOffsetX(r * 0.21);
         ambient.setOffsetY(r * 0.24);
         ambient.setSpread(0.0);
