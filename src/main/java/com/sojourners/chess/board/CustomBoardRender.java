@@ -2,6 +2,7 @@ package com.sojourners.chess.board;
 
 import com.sojourners.chess.util.PathUtils;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
@@ -81,38 +82,30 @@ public class CustomBoardRender extends BaseBoardRender {
             return;
         }
 
+        DropShadow ambient = new DropShadow();
+        ambient.setRadius(r * 0.50);            // ★ 加大：更柔更散
+        ambient.setOffsetX(r * 0.18);           // ★ 往右
+        ambient.setOffsetY(r * 0.35);           // ★ 往下
+        ambient.setSpread(0.0);
+        ambient.setColor(Color.rgb(30, 18, 8, 0.55));   // ★ 加深
+
+        DropShadow contact = new DropShadow();
+        contact.setRadius(r * 0.18);            // ★ 加大
+        contact.setOffsetX(r * 0.08);           // ★ 往右
+        contact.setOffsetY(r * 0.16);           // ★ 往下
+        contact.setSpread(0.30);
+        contact.setColor(Color.rgb(20, 10, 5, 0.70));   // ★ 加深
+        contact.setInput(ambient);
+
         gc.save();
-
-        double shadowRadius = r * 1.1;
-        double shadowOffset = piece * 0.09 * pieceScale;
-
-        javafx.scene.paint.RadialGradient shadowGradient = new javafx.scene.paint.RadialGradient(
-                0, 0, 0.5, 0.5, 0.5, true, javafx.scene.paint.CycleMethod.NO_CYCLE,
-                new javafx.scene.paint.Stop(0.0, javafx.scene.paint.Color.rgb(0, 0, 0, 1.0)),
-                new javafx.scene.paint.Stop(0.62, javafx.scene.paint.Color.rgb(0, 0, 0, 0.75)),
-                new javafx.scene.paint.Stop(0.80, javafx.scene.paint.Color.rgb(0, 0, 0, 0.5)),
-                new javafx.scene.paint.Stop(0.92, javafx.scene.paint.Color.rgb(0, 0, 0, 0.05)),
-                new javafx.scene.paint.Stop(1.0, javafx.scene.paint.Color.rgb(0, 0, 0, 0.0))
-        );
-        gc.setFill(shadowGradient);
-
+        gc.setEffect(contact);
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[0].length; j++) {
                 Image img = map.get(board[i][j]);
-                if (img != null) {
-                    int x = pos + piece * getReverseX(j, isReverse);
-                    int y = pos + piece * getReverseY(i, isReverse);
-
-                    // 椭圆：横向窄、纵向长
-                    gc.fillOval(
-                            x - shadowRadius + shadowOffset + offX,
-                            y - shadowRadius + shadowOffset + offY,
-                            2 * shadowRadius,
-                            2 * shadowRadius
-                    );
-
-                    gc.drawImage(img, x - r + offX, y - r + offY, 2 * r, 2 * r);
-                }
+                if (img == null) continue;
+                int x = pos + piece * getReverseX(j, isReverse);
+                int y = pos + piece * getReverseY(i, isReverse);
+                gc.drawImage(img, x - r + offX, y - r + offY, 2 * r, 2 * r);
             }
         }
 
