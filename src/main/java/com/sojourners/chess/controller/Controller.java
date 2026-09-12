@@ -978,7 +978,7 @@ public class Controller implements EngineCallBack, LinkerCallBack, ChessManualCa
         for (int i = 1; i <= Runtime.getRuntime().availableProcessors(); i++) {
             threadComboBox.getItems().add(String.valueOf(i));
         }
-        hashComboBox.getItems().addAll("16", "32", "64", "128", "256", "512", "1024", "2048", "4096");
+        hashComboBox.getItems().addAll( "128", "256", "512", "1024", "2048", "4096");
         // 加载设置
         threadComboBox.setValue(String.valueOf(prop.getThreadNum()));
         hashComboBox.setValue(String.valueOf(prop.getHashSize()));
@@ -995,7 +995,7 @@ public class Controller implements EngineCallBack, LinkerCallBack, ChessManualCa
         }
 
         linkComboBox.getItems().addAll("自动走棋", "观战模式");
-        linkComboBox.setValue("自动走棋");
+        linkComboBox.setValue("观战模式");
     }
 
     private void refreshEngineComboBox() {
