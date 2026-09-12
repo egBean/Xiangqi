@@ -68,6 +68,8 @@ public class CustomBoardRender extends BaseBoardRender {
 
         // 5. 绘制（多余边距自动移出画布外）
         gc.drawImage(bgImage, drawX, drawY, imgW * scale, imgH * scale);
+
+        //此处本质就是先计算出原图缩放值，让原图的棋盘四个角与目标棋盘线的四个角能完全重叠。然后再算出缩放后的原图，起始位置偏移量。也就是drawX，drawY
     }
 
     @Override
@@ -105,9 +107,11 @@ public class CustomBoardRender extends BaseBoardRender {
         }
 
         DropShadow ambient = new DropShadow();
+        //radius表示的是阴影总宽度。比如棋子r=1，那r*0.18则表示阴影半径为1.18.阴影距离棋子边缘宽度为0.18。
         ambient.setRadius(r * 0.18);
         ambient.setOffsetX(r * 0.21);
         ambient.setOffsetY(r * 0.24);
+        //spread表示实心纯黑阴影占阴影宽度的比例。
         ambient.setSpread(0.0);
         ambient.setColor(Color.rgb(45, 30, 15, 0.45));   // 不动
 
