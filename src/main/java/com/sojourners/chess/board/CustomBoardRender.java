@@ -83,18 +83,15 @@ public class CustomBoardRender extends BaseBoardRender {
 
         gc.save();
 
-        double shadowRadiusX = r * 1.07;
-        double shadowRadiusY = r * 1.10;
-        // 阴影的偏移也跟着缩放，才能和缩小的棋子保持相同比例
-        double shadowOffsetX = piece * 0.05 * pieceScale;
-        double shadowOffsetY = piece * 0.09 * pieceScale;
+        double shadowRadius = r * 1.1;
+        double shadowOffset = piece * 0.09 * pieceScale;
 
         javafx.scene.paint.RadialGradient shadowGradient = new javafx.scene.paint.RadialGradient(
                 0, 0, 0.5, 0.5, 0.5, true, javafx.scene.paint.CycleMethod.NO_CYCLE,
                 new javafx.scene.paint.Stop(0.0, javafx.scene.paint.Color.rgb(0, 0, 0, 1.0)),
-                new javafx.scene.paint.Stop(0.62, javafx.scene.paint.Color.rgb(0, 0, 0, 0.98)),
-                new javafx.scene.paint.Stop(0.80, javafx.scene.paint.Color.rgb(0, 0, 0, 0.72)),
-                new javafx.scene.paint.Stop(0.92, javafx.scene.paint.Color.rgb(0, 0, 0, 0.18)),
+                new javafx.scene.paint.Stop(0.62, javafx.scene.paint.Color.rgb(0, 0, 0, 0.75)),
+                new javafx.scene.paint.Stop(0.80, javafx.scene.paint.Color.rgb(0, 0, 0, 0.5)),
+                new javafx.scene.paint.Stop(0.92, javafx.scene.paint.Color.rgb(0, 0, 0, 0.05)),
                 new javafx.scene.paint.Stop(1.0, javafx.scene.paint.Color.rgb(0, 0, 0, 0.0))
         );
         gc.setFill(shadowGradient);
@@ -108,10 +105,10 @@ public class CustomBoardRender extends BaseBoardRender {
 
                     // 椭圆：横向窄、纵向长
                     gc.fillOval(
-                            x - shadowRadiusX + shadowOffsetX + offX,
-                            y - shadowRadiusY + shadowOffsetY + offY,
-                            2 * shadowRadiusX,
-                            2 * shadowRadiusY
+                            x - shadowRadius + shadowOffset + offX,
+                            y - shadowRadius + shadowOffset + offY,
+                            2 * shadowRadius,
+                            2 * shadowRadius
                     );
 
                     gc.drawImage(img, x - r + offX, y - r + offY, 2 * r, 2 * r);
