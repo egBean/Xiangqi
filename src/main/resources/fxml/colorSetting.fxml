@@ -122,7 +122,7 @@
                     </GridPane>
 
                     <Separator />
-                    <Label text="棋子偏移量">
+                    <Label text="盘面对齐">
                         <font>
                             <Font size="15.0" />
                         </font>
