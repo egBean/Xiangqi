@@ -45,7 +45,29 @@ public class CustomBoardRender extends BaseBoardRender {
 
     @Override
     public void drawBackgroundImage(double width, double height) {
-        gc.drawImage(bgImage, 0, 0, width, height);
+        double xPadding = this.getBoardOffsetX();
+        if(xPadding == 0){
+            gc.drawImage(bgImage, 0, 0, width, height);
+            return;
+        }
+        double imgW = bgImage.getWidth();
+        double imgH = bgImage.getHeight();
+
+        // 1. 反推屏幕每格大小（宽高只取一个即可）
+        double cellSize = width / (9.0 + 1.0 / 3);
+
+        // 2. 原图每格大小
+        double imgCellSize = (imgW - 2 * xPadding) / 8.0;
+
+        // 3. 统一缩放比例
+        double scale = cellSize / imgCellSize;
+
+        // 4. 让原图棋盘中心对齐到画布中心
+        double drawX = width  / 2.0 - (imgW / 2.0) * scale;
+        double drawY = height / 2.0 - (imgH / 2.0) * scale;
+
+        // 5. 绘制（多余边距自动移出画布外）
+        gc.drawImage(bgImage, drawX, drawY, imgW * scale, imgH * scale);
     }
 
     @Override

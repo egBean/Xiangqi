@@ -25,6 +25,13 @@ public abstract class BaseBoardRender implements BoardRender {
     // 棋子图片偏移量（相对棋子半径 r 的比例，正数向右/下，负数向左/上）
     private double pieceOffsetX = 0;
 
+
+    private double boardOffsetX = 0;
+
+    public double getBoardOffsetX() {
+        return boardOffsetX;
+    }
+
     public double getPieceOffsetX() {
         return pieceOffsetX;
     }
@@ -37,9 +44,10 @@ public abstract class BaseBoardRender implements BoardRender {
 
     private double pieceOffsetY = 0;
 
-    public void setPieceOffset(double offsetX, double offsetY) {
+    public void setPieceOffset(double offsetX, double offsetY,double boardOffsetX) {
         this.pieceOffsetX = offsetX;
         this.pieceOffsetY = offsetY;
+        this.boardOffsetX = boardOffsetX;
     }
 
     public BaseBoardRender(Canvas canvas) {
@@ -59,6 +67,7 @@ public abstract class BaseBoardRender implements BoardRender {
         canvas.setHeight(2 * padding + piece * 10);
         //加上这一行！强制清空整个画布 避免切换棋盘大小时异常渲染
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        this.setPieceOffset(prop.getPieceOffsetX(), prop.getPieceOffsetY(),prop.getBoardOffsetX());
         // 绘制背景图片
         drawBackgroundImage(canvas.getWidth(), canvas.getHeight());
         // 绘制棋盘线
@@ -78,7 +87,6 @@ public abstract class BaseBoardRender implements BoardRender {
         if (remark != null) {
             drawStepRemark(pos, piece, remark.x, remark.y, false, isReverse, boardSize);
         }
-        this.setPieceOffset(prop.getPieceOffsetX(), prop.getPieceOffsetY());
         // 绘制棋子
         drawPieces(pos, piece, board, isReverse, boardSize,prop.getPieceShadow().equals(Properties.PieceShadow.YES),prop.getPieceScale());
         // 棋谱变招

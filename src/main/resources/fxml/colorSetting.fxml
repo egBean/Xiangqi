@@ -17,7 +17,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.control.ScrollPane?>
 
-<BorderPane prefHeight="550.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sojourners.chess.controller.ColorSettingController">
+<BorderPane prefHeight="600.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sojourners.chess.controller.ColorSettingController">
     <center>
         <!-- 使用 ScrollPane 包裹内容，并让宽度自适应 -->
         <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" style="-fx-background-color: transparent;">
@@ -160,6 +160,12 @@
                         <Spinner fx:id="pieceScale" editable="true" prefWidth="120.0"
                                  GridPane.columnIndex="1" GridPane.rowIndex="2" />
                         <Label text="(0.1 ~ 2.0)" GridPane.columnIndex="2" GridPane.rowIndex="2"
+                               style="-fx-text-fill: gray; -fx-font-size: 11px;" />
+
+                        <Label text="棋盘偏移" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                        <Spinner fx:id="boardOffsetX" editable="true" prefWidth="120.0"
+                                 GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Label text="棋盘左边距像素点数" GridPane.columnIndex="2" GridPane.rowIndex="3"
                                style="-fx-text-fill: gray; -fx-font-size: 11px;" />
 
                         <!-- 恢复默认：跨 3 行 -->

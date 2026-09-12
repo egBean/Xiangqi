@@ -50,6 +50,8 @@ public class ColorSettingController {
     @FXML private Spinner<Double> pieceOffsetX;
     @FXML private Spinner<Double> pieceOffsetY;
 
+    @FXML private Spinner<Integer> boardOffsetX;
+
     @FXML private Spinner<Double> pieceScale;
 
     // 默认偏移量（相对棋子半径的比例）
@@ -85,6 +87,8 @@ public class ColorSettingController {
         }
         configureOpacityDouble(pieceOffsetX, prop.getPieceOffsetX(),-1.0,1.0);
         configureOpacityDouble(pieceOffsetY, prop.getPieceOffsetY(),-1.0,1.0);
+
+        configureBoardOffset(boardOffsetX, prop.getBoardOffsetX(),1000);
 
         configureOpacityDouble(pieceScale, prop.getPieceScale(),0.1,2.0);
     }
@@ -124,6 +128,7 @@ public class ColorSettingController {
     public void resetPieceOffset() {
         pieceOffsetX.getValueFactory().setValue(DEFAULT_OFFSET_X);
         pieceOffsetY.getValueFactory().setValue(DEFAULT_OFFSET_Y);
+        boardOffsetX.getValueFactory().setValue(0);
         pieceScale.getValueFactory().setValue(1.00);
     }
 
@@ -148,6 +153,7 @@ public class ColorSettingController {
         prop.setPieceOffsetY(pieceOffsetY.getValue()==null?0:pieceOffsetY.getValue());
 
         prop.setPieceScale(pieceScale.getValue()==null?0:pieceScale.getValue());
+        prop.setBoardOffsetX(boardOffsetX.getValue() == null ? 0 : boardOffsetX.getValue());
         prop.save();
         saved = true;
         close();
@@ -166,6 +172,12 @@ public class ColorSettingController {
         spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, toPercent(opacity), 5));
         spinner.getEditor().setTextFormatter(new javafx.scene.control.TextFormatter<>(change ->
                 change.getControlNewText().matches("\\d{0,3}") ? change : null));
+    }
+
+    private void configureBoardOffset(Spinner<Integer> spinner, Integer opacity,Integer maxLimit) {
+        spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, maxLimit, opacity, 5));
+        spinner.getEditor().setTextFormatter(new javafx.scene.control.TextFormatter<>(change ->
+                change.getControlNewText().matches("\\d{0,4}") ? change : null));
     }
 
 

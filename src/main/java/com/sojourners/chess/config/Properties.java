@@ -73,6 +73,16 @@ public class Properties implements Serializable {
 
     private Double pieceOffsetX;
 
+    private Integer boardOffsetX;
+
+    public Integer getBoardOffsetX() {
+        return boardOffsetX == null? 0 : boardOffsetX;
+    }
+
+    public void setBoardOffsetX(Integer boardOffsetX) {
+        this.boardOffsetX = boardOffsetX;
+    }
+
     public Double getPieceOffsetX() {
         return pieceOffsetX == null? 0:pieceOffsetX;
     }
