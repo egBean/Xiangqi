@@ -83,7 +83,7 @@ public class CustomBoardRender extends BaseBoardRender {
         }
 
         DropShadow ambient = new DropShadow();
-        ambient.setRadius(r * 0.3);
+        ambient.setRadius(r * 0.22);
         ambient.setOffsetX(r * 0.21);
         ambient.setOffsetY(r * 0.24);
         ambient.setSpread(0.0);
@@ -94,7 +94,7 @@ public class CustomBoardRender extends BaseBoardRender {
         contact.setOffsetX(r * 0.05);
         contact.setOffsetY(r * 0.06);
         contact.setSpread(0.35);
-        contact.setColor(Color.rgb(35, 20, 10, 0.65));   // ★ 0.55 → 0.75，只改这一行
+        contact.setColor(Color.rgb(35, 20, 10, 0.65));
         contact.setInput(ambient);
 
         gc.save();
