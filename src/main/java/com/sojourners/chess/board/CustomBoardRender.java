@@ -83,18 +83,18 @@ public class CustomBoardRender extends BaseBoardRender {
         }
 
         DropShadow ambient = new DropShadow();
-        ambient.setRadius(r * 0.50);            // ★ 加大：更柔更散
-        ambient.setOffsetX(r * 0.18);           // ★ 往右
-        ambient.setOffsetY(r * 0.35);           // ★ 往下
+        ambient.setRadius(r * 0.3);
+        ambient.setOffsetX(r * 0.21);
+        ambient.setOffsetY(r * 0.24);
         ambient.setSpread(0.0);
-        ambient.setColor(Color.rgb(30, 18, 8, 0.55));   // ★ 加深
+        ambient.setColor(Color.rgb(45, 30, 15, 0.45));   // 不动
 
         DropShadow contact = new DropShadow();
-        contact.setRadius(r * 0.18);            // ★ 加大
-        contact.setOffsetX(r * 0.08);           // ★ 往右
-        contact.setOffsetY(r * 0.16);           // ★ 往下
-        contact.setSpread(0.30);
-        contact.setColor(Color.rgb(20, 10, 5, 0.70));   // ★ 加深
+        contact.setRadius(r * 0.10);
+        contact.setOffsetX(r * 0.05);
+        contact.setOffsetY(r * 0.06);
+        contact.setSpread(0.35);
+        contact.setColor(Color.rgb(35, 20, 10, 0.65));   // ★ 0.55 → 0.75，只改这一行
         contact.setInput(ambient);
 
         gc.save();
