@@ -194,8 +194,8 @@ public class EditChessBoardController {
     }
 
     public void initialize() {
-        this.boardRender = !Objects.equals(Properties.getInstance().getBoardStyle(), "default") ? new CustomBoardRender(canvas) : new DefaultBoardRender(canvas);
-        this.demoBoardRender = !Objects.equals(Properties.getInstance().getBoardStyle(), "default") ? new CustomBoardRender(demoCanvas) : new DefaultBoardRender(demoCanvas);
+        this.boardRender = !Objects.equals(Properties.getInstance().getBoardStyle(), "default") ? new CustomBoardRender(canvas,Properties.getInstance().getBoardStyle()) : new DefaultBoardRender(canvas);
+        this.demoBoardRender = !Objects.equals(Properties.getInstance().getBoardStyle(), "default") ? new CustomBoardRender(demoCanvas,Properties.getInstance().getBoardStyle()) : new DefaultBoardRender(demoCanvas);
         this.boardSize = ChessBoard.BoardSize.MIDDLE_BOARD;
 
         ToggleGroup group = new ToggleGroup();

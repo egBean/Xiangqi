@@ -137,7 +137,7 @@ public class ChessBoard {
     public ChessBoard(Canvas canvas, BoardSize bs, String style, boolean stepTip, boolean manualTip,
                       boolean showMultiPV, boolean stepSound, boolean showNumber, String fenCode) {
         if (this.boardRender == null) {
-            this.boardRender = !Objects.equals(style, "default") ? new CustomBoardRender(canvas) : new DefaultBoardRender(canvas);
+            this.boardRender = !Objects.equals(style, "default") ? new CustomBoardRender(canvas,style) : new DefaultBoardRender(canvas);
         }
 
         this.stepTip = stepTip;
@@ -206,7 +206,7 @@ public class ChessBoard {
     }
 
     public void setBoardStyle(String type, Canvas canvas) {
-        this.boardRender = !Objects.equals(type, "default") ? new CustomBoardRender(canvas) : new DefaultBoardRender(canvas);
+        this.boardRender = !Objects.equals(type, "default") ? new CustomBoardRender(canvas,type) : new DefaultBoardRender(canvas);
         this.paint();
     }
 

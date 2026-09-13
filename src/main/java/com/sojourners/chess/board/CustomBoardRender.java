@@ -17,30 +17,54 @@ public class CustomBoardRender extends BaseBoardRender {
     private Image mask2Image;
     private Map<Character, Image> map;
 
-    public CustomBoardRender(Canvas canvas) {
+    public CustomBoardRender(Canvas canvas,String skin) {
         super(canvas);
 
-        this.bgImage = new Image(new File(PathUtils.getJarPath() + "/ui/board.png").toURI().toString());
 
-        this.maskImage = new Image(new File(PathUtils.getJarPath() + "/ui/mask.png").toURI().toString());
-        this.mask2Image = new Image(new File(PathUtils.getJarPath() + "/ui/mask2.png").toURI().toString());
+        File skinDir = findSkinDir(skin);
+        String baseDir = skinDir != null ? skinDir.getAbsolutePath()
+                : PathUtils.getJarPath() + "/ui";   // 找不到就退回默认
+
+        this.bgImage   = loadImage(baseDir, "board.png");
+        this.maskImage = loadImage(baseDir, "mask.png");
+        this.mask2Image = loadImage(baseDir, "mask2.png");
 
         map = new HashMap<>();
-        map.put('r', new Image(new File(PathUtils.getJarPath() + "/ui/br.png").toURI().toString()));
-        map.put('n', new Image(new File(PathUtils.getJarPath() + "/ui/bn.png").toURI().toString()));
-        map.put('b', new Image(new File(PathUtils.getJarPath() + "/ui/bb.png").toURI().toString()));
-        map.put('a', new Image(new File(PathUtils.getJarPath() + "/ui/ba.png").toURI().toString()));
-        map.put('k', new Image(new File(PathUtils.getJarPath() + "/ui/bk.png").toURI().toString()));
-        map.put('c', new Image(new File(PathUtils.getJarPath() + "/ui/bc.png").toURI().toString()));
-        map.put('p', new Image(new File(PathUtils.getJarPath() + "/ui/bp.png").toURI().toString()));
+        map.put('r', loadImage(baseDir, "br.png"));
+        map.put('n', loadImage(baseDir, "bn.png"));
+        map.put('b', loadImage(baseDir, "bb.png"));
+        map.put('a', loadImage(baseDir, "ba.png"));
+        map.put('k', loadImage(baseDir, "bk.png"));
+        map.put('c', loadImage(baseDir, "bc.png"));
+        map.put('p', loadImage(baseDir, "bp.png"));
 
-        map.put('R', new Image(new File(PathUtils.getJarPath() + "/ui/rr.png").toURI().toString()));
-        map.put('N', new Image(new File(PathUtils.getJarPath() + "/ui/rn.png").toURI().toString()));
-        map.put('B', new Image(new File(PathUtils.getJarPath() + "/ui/rb.png").toURI().toString()));
-        map.put('A', new Image(new File(PathUtils.getJarPath() + "/ui/ra.png").toURI().toString()));
-        map.put('K', new Image(new File(PathUtils.getJarPath() + "/ui/rk.png").toURI().toString()));
-        map.put('C', new Image(new File(PathUtils.getJarPath() + "/ui/rc.png").toURI().toString()));
-        map.put('P', new Image(new File(PathUtils.getJarPath() + "/ui/rp.png").toURI().toString()));
+        map.put('R', loadImage(baseDir, "rr.png"));
+        map.put('N', loadImage(baseDir, "rn.png"));
+        map.put('B', loadImage(baseDir, "rb.png"));
+        map.put('A', loadImage(baseDir, "ra.png"));
+        map.put('K', loadImage(baseDir, "rk.png"));
+        map.put('C', loadImage(baseDir, "rc.png"));
+        map.put('P', loadImage(baseDir, "rp.png"));
+    }
+
+    /** 从 jarPath 往上逐级找 skin/<皮肤名>，覆盖 IDE 和 jar 两种情况 */
+    private File findSkinDir(String skin) {
+        // 1. 工作目录下的 skin（IDE 默认工作目录 = 项目根目录）
+        File dir = new File("skin", skin);
+        if (dir.isDirectory()) {
+            return dir;
+        }
+        return null;
+    }
+
+    /** 从指定目录加载图片 */
+    private Image loadImage(String baseDir, String fileName) {
+        File f = new File(baseDir, fileName);
+        if (!f.exists()) {
+            // 该皮肤没有这张图，退回默认 ui 目录
+            f = new File(PathUtils.getJarPath() + "/ui", fileName);
+        }
+        return new Image(f.toURI().toString());
     }
 
     @Override
