@@ -196,7 +196,21 @@ public class Controller implements EngineCallBack, LinkerCallBack, ChessManualCa
 
     /** 扫描 skin 目录并生成菜单项 */
     private void initBoardTypeMenu() {
-        currentBoardSkin = prop.getBoardStyle();
+
+        String boardStyle = prop.getBoardStyle();
+
+        // 校验皮肤：非 default 时，如果 skin 目录或对应皮肤目录不存在，则回退 default
+        if (!"default".equalsIgnoreCase(boardStyle)) {
+            File projectSkinDir = new File("skin");
+            File targetSkinDir = new File(projectSkinDir, boardStyle);
+
+            if (!projectSkinDir.isDirectory() || !targetSkinDir.isDirectory()) {
+                boardStyle = "default";
+                prop.setBoardStyle(boardStyle);
+            }
+        }
+
+        currentBoardSkin = boardStyle;
         // 从皮肤目录读 config.json（没有就创建，默认 0,0,0,1）
         if (!"default".equalsIgnoreCase(this.currentBoardSkin)) {
             loadOrCreateSkinConfig(this.currentBoardSkin);
