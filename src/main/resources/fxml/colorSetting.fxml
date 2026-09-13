@@ -122,7 +122,7 @@
                     </GridPane>
 
                     <Separator />
-                    <Label text="盘面对齐">
+                    <Label text="皮肤配置(先对齐棋盘!)">
                         <font>
                             <Font size="15.0" />
                         </font>
