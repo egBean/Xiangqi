@@ -80,7 +80,7 @@ public class ColorSettingController {
             lightTheme.setSelected(true);
         }
 
-        if (prop.getPieceShadow() == Properties.PieceShadow.NO) {
+        if (prop.getPieceShadow() == 0) {
             noShadowPiece.setSelected(true);
         } else {
             shadowPiece.setSelected(true);
@@ -147,7 +147,7 @@ public class ColorSettingController {
         prop.setBranchStepNumberColor(toHex(branchStepNumberColor.getValue()));
 
         prop.setColorTheme(darkTheme.isSelected() ? Properties.ColorTheme.DARK : Properties.ColorTheme.LIGHT);
-        prop.setPieceShadow(noShadowPiece.isSelected()?Properties.PieceShadow.NO: Properties.PieceShadow.YES);
+        prop.setPieceShadow(noShadowPiece.isSelected()?0: 1);
 
         prop.setPieceOffsetX(pieceOffsetX.getValue()==null?0:pieceOffsetX.getValue());
         prop.setPieceOffsetY(pieceOffsetY.getValue()==null?0:pieceOffsetY.getValue());

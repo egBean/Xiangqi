@@ -150,13 +150,13 @@ public class Properties implements Serializable {
 
     private ColorTheme colorTheme;
 
-    private PieceShadow pieceShadow;
+    private int pieceShadow;
 
-    public PieceShadow getPieceShadow() {
-        return pieceShadow == null ? PieceShadow.NO : pieceShadow;
+    public int getPieceShadow() {
+        return pieceShadow;
     }
 
-    public void setPieceShadow(PieceShadow pieceShadow) {
+    public void setPieceShadow(int pieceShadow) {
         this.pieceShadow = pieceShadow;
     }
 
@@ -165,10 +165,6 @@ public class Properties implements Serializable {
         DARK
     }
 
-    public enum PieceShadow {
-        NO,
-        YES
-    }
 
     private Properties(ChessBoard.BoardSize boardSize, boolean stepTip,
                        int threadNum, int hashSize, String engineName, Engine.AnalysisModel analysisModel, long analysisValue,

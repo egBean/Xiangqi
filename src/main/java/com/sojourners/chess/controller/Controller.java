@@ -288,11 +288,13 @@ public class Controller implements EngineCallBack, LinkerCallBack, ChessManualCa
 
         String json = String.format(
                 "{%n  \"boardOffsetX\": %d,%n  \"pieceOffsetX\": %s,%n" +
-                        "  \"pieceOffsetY\": %s,%n  \"pieceScale\": %s%n}%n",
+                        "  \"pieceOffsetY\": %s,%n  \"pieceScale\": %s,%n" +
+                        "  \"pieceShadow\": %d%n}%n",
                 prop.getBoardOffsetX(),
                 prop.getPieceOffsetX(),
                 prop.getPieceOffsetY(),
-                prop.getPieceScale());
+                prop.getPieceScale(),
+                prop.getPieceShadow());
         try {
             java.nio.file.Files.writeString(
                     cfgFile.toPath(), json, java.nio.charset.StandardCharsets.UTF_8);
@@ -314,11 +316,13 @@ public class Controller implements EngineCallBack, LinkerCallBack, ChessManualCa
             prop.setPieceOffsetX(0.0);
             prop.setPieceOffsetY(0.0);
             prop.setPieceScale(1.0);
+            prop.setPieceShadow(0);
 
             String json = String.format(
-                    "{%n  \"boardOffsetX\": %s,%n  \"pieceOffsetX\": %s,%n" +
-                            "  \"pieceOffsetY\": %s,%n  \"pieceScale\": %s%n}%n",
-                    0, 0, 0, 1);
+                    "{%n  \"boardOffsetX\": %d,%n  \"pieceOffsetX\": %s,%n" +
+                            "  \"pieceOffsetY\": %s,%n  \"pieceScale\": %s,%n" +
+                            "  \"pieceShadow\": %d%n}%n",
+                    0, 0, 0, 1, 0);
             try {
                 java.nio.file.Files.writeString(
                         cfgFile.toPath(), json, java.nio.charset.StandardCharsets.UTF_8);
@@ -335,6 +339,7 @@ public class Controller implements EngineCallBack, LinkerCallBack, ChessManualCa
             prop.setPieceOffsetX(readDouble(json, "pieceOffsetX", 0));
             prop.setPieceOffsetY(readDouble(json, "pieceOffsetY", 0));
             prop.setPieceScale(readDouble(json, "pieceScale",   1));
+            prop.setPieceShadow((int) readDouble(json, "pieceShadow", 0));
         } catch (IOException e) {
             e.printStackTrace();
         }

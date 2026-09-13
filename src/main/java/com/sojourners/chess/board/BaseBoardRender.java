@@ -88,7 +88,7 @@ public abstract class BaseBoardRender implements BoardRender {
             drawStepRemark(pos, piece, remark.x, remark.y, false, isReverse, boardSize);
         }
         // 绘制棋子
-        drawPieces(pos, piece, board, isReverse, boardSize,prop.getPieceShadow().equals(Properties.PieceShadow.YES),prop.getPieceScale());
+        drawPieces(pos, piece, board, isReverse, boardSize,prop.getPieceShadow()==1,prop.getPieceScale());
         // 棋谱变招
         if (manualTip && manualList != null && manualList.size() > 1) {
             for (int i = manualList.size() - 1; i >= 0; i--) {
