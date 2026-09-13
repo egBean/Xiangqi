@@ -268,14 +268,15 @@ public class Controller implements EngineCallBack, LinkerCallBack, ChessManualCa
         Object data = item.getUserData();
         this.currentBoardSkin = data.toString();
         prop.setBoardStyle(this.currentBoardSkin);
-        board.setBoardStyle(currentBoardSkin,this.canvas);
-
 
         // 从皮肤目录读 config.json（没有就创建，默认 0,0,0,1）
         if (this.currentBoardSkin == null || "default".equalsIgnoreCase(this.currentBoardSkin)) {
+            board.setBoardStyle(currentBoardSkin,this.canvas);
             return;
         }
         loadOrCreateSkinConfig(this.currentBoardSkin);
+
+        board.setBoardStyle(currentBoardSkin,this.canvas);
 
     }
 
