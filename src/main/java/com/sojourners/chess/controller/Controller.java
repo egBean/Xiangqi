@@ -31,6 +31,7 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.*;
 import javafx.scene.control.TextArea;
@@ -51,7 +52,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
+import java.util.*;
 import java.util.List;
 
 public class Controller implements EngineCallBack, LinkerCallBack, ChessManualCallBack {
@@ -98,10 +99,11 @@ public class Controller implements EngineCallBack, LinkerCallBack, ChessManualCa
     @FXML
     private RadioMenuItem menuOfAutoFitBoard;
 
+    /* ============ 棋盘样式相关 ============ */
+    @FXML private Menu boardTypeMenu;
+    @FXML private ToggleGroup boardTypeGroup;
     @FXML
     private RadioMenuItem menuOfDefaultBoard;
-    @FXML
-    private RadioMenuItem menuOfCustomBoard;
 
     @FXML
     private CheckMenuItem menuOfStepTip;
@@ -185,6 +187,67 @@ public class Controller implements EngineCallBack, LinkerCallBack, ChessManualCa
      */
     private List<String> tacticList;
 
+
+    /** 当前皮肤，内置默认用 "default" 表示 */
+    private String currentBoardSkin = "default";
+    /** 动态生成的皮肤菜单项 */
+    private final List<RadioMenuItem> skinItems = new ArrayList<>();
+
+
+    /** 扫描 skin 目录并生成菜单项 */
+    private void initBoardTypeMenu() {
+        currentBoardSkin = prop.getBoardStyle();
+        menuOfDefaultBoard.setUserData("default");
+        skinItems.add(menuOfAutoFitBoard);
+        File skinDir = resolveSkinDir();
+        if (skinDir != null) {
+            File[] dirs = skinDir.listFiles(File::isDirectory);
+            if (dirs != null) {
+                Arrays.sort(dirs,
+                        Comparator.comparing(File::getName, String.CASE_INSENSITIVE_ORDER));
+                for (File dir : dirs) {
+                    String name = dir.getName();
+                    if (name.startsWith(".")) continue;   // 跳过隐藏目录
+
+                    RadioMenuItem item = new RadioMenuItem(name);
+                    item.setToggleGroup(boardTypeGroup);
+                    item.setUserData(name);               // 皮肤目录名
+                    item.setOnAction(this::boardTypeSelected);
+                    boardTypeMenu.getItems().add(item);
+                    skinItems.add(item);
+                }
+            }
+        }
+
+        // 恢复上次选择（首次运行就是默认）
+        selectBoardSkin(currentBoardSkin);
+    }
+
+    /** 根据皮肤名恢复单选状态 */
+    private void selectBoardSkin(String skin) {
+        if ("default".equalsIgnoreCase(skin)) {
+            menuOfDefaultBoard.setSelected(true);
+            return;
+        }
+        for (RadioMenuItem item : skinItems) {
+            if (skin.equalsIgnoreCase(item.getText())) {
+                item.setSelected(true);
+                return;
+            }
+        }
+        menuOfDefaultBoard.setSelected(true);
+    }
+
+
+    /** 定位 skin 目录：存在就返回，不存在就创建 */
+    private File resolveSkinDir() {
+        File dir = new File("skin");
+        if (dir.isDirectory()) return dir;
+        if (dir.mkdirs()) return dir;
+        return null;
+    }
+
+
     @FXML
     public void newButtonClick(ActionEvent event) {
         if (linkMode.getValue()) {
@@ -195,14 +258,12 @@ public class Controller implements EngineCallBack, LinkerCallBack, ChessManualCa
     }
 
     @FXML
-    void boardStyleSelected(ActionEvent event) {
+    void boardTypeSelected(ActionEvent event) {
         RadioMenuItem item = (RadioMenuItem) event.getTarget();
-        if (item.equals(menuOfDefaultBoard)) {
-            prop.setBoardStyle(ChessBoard.BoardStyle.DEFAULT);
-        } else {
-            prop.setBoardStyle(ChessBoard.BoardStyle.CUSTOM);
-        }
-        board.setBoardStyle(prop.getBoardStyle(), this.canvas);
+        Object data = item.getUserData();
+        this.currentBoardSkin = data.toString();
+        prop.setBoardStyle(this.currentBoardSkin);
+        board.setBoardStyle(currentBoardSkin,this.canvas);
     }
 
     @FXML
@@ -856,11 +917,7 @@ public class Controller implements EngineCallBack, LinkerCallBack, ChessManualCa
             menuOfSmallBoard.setSelected(true);
         }
         // 棋盘样式
-        if (prop.getBoardStyle() == ChessBoard.BoardStyle.DEFAULT) {
-            menuOfDefaultBoard.setSelected(true);
-        } else {
-            menuOfCustomBoard.setSelected(true);
-        }
+        initBoardTypeMenu();
         // 右键菜单
         initBoardContextMenu();
         // 状态栏

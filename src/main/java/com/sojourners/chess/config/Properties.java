@@ -24,7 +24,7 @@ public class Properties implements Serializable {
     private static Properties prop;
 
     private ChessBoard.BoardSize boardSize;
-    private ChessBoard.BoardStyle boardStyle = ChessBoard.BoardStyle.DEFAULT;
+    private String boardStyle = "default";
 
     private boolean stepTip;
 
@@ -259,11 +259,11 @@ public class Properties implements Serializable {
         }
     }
 
-    public ChessBoard.BoardStyle getBoardStyle() {
-        return boardStyle;
+    public String getBoardStyle() {
+        return boardStyle == null? "default" : boardStyle;
     }
 
-    public void setBoardStyle(ChessBoard.BoardStyle boardStyle) {
+    public void setBoardStyle(String boardStyle) {
         this.boardStyle = boardStyle;
     }
 

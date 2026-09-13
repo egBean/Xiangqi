@@ -86,14 +86,15 @@
                         <CheckMenuItem fx:id="menuOfShowNumber" mnemonicParsing="false" onAction="#showNumberClick" text="显示线路" />
                         <CheckMenuItem fx:id="menuOfTopWindow" mnemonicParsing="false" onAction="#topWindowClick" text="窗口置顶" />
                         <CheckMenuItem fx:id="menuOfShowStatus" mnemonicParsing="false" onAction="#showStatusBarClick" text="显示状态栏" />
-                        <Menu mnemonicParsing="false" text="棋盘样式">
+                        <Menu fx:id="boardTypeMenu" mnemonicParsing="false" text="棋盘样式">
                             <items>
-                                <RadioMenuItem fx:id="menuOfDefaultBoard" mnemonicParsing="false" onAction="#boardStyleSelected" text="默认">
+                                <RadioMenuItem fx:id="menuOfDefaultBoard" mnemonicParsing="false"
+                                               onAction="#boardTypeSelected" text="默认">
                                     <toggleGroup>
-                                        <ToggleGroup fx:id="boardStyle1" />
+                                        <ToggleGroup fx:id="boardTypeGroup" />
                                     </toggleGroup>
                                 </RadioMenuItem>
-                                <RadioMenuItem fx:id="menuOfCustomBoard" mnemonicParsing="false" onAction="#boardStyleSelected" text="红黑" toggleGroup="$boardStyle1" />
+                                <!-- 其余皮肤项：由 Controller#initialize 扫描 skin 目录后动态添加 -->
                             </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="棋盘大小">
