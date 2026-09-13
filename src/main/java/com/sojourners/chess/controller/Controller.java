@@ -197,6 +197,11 @@ public class Controller implements EngineCallBack, LinkerCallBack, ChessManualCa
     /** 扫描 skin 目录并生成菜单项 */
     private void initBoardTypeMenu() {
         currentBoardSkin = prop.getBoardStyle();
+        // 从皮肤目录读 config.json（没有就创建，默认 0,0,0,1）
+        if (!"default".equalsIgnoreCase(this.currentBoardSkin)) {
+            loadOrCreateSkinConfig(this.currentBoardSkin);
+        }
+
         menuOfDefaultBoard.setUserData("default");
         skinItems.add(menuOfAutoFitBoard);
         File skinDir = resolveSkinDir();
@@ -264,7 +269,95 @@ public class Controller implements EngineCallBack, LinkerCallBack, ChessManualCa
         this.currentBoardSkin = data.toString();
         prop.setBoardStyle(this.currentBoardSkin);
         board.setBoardStyle(currentBoardSkin,this.canvas);
+
+
+        // 从皮肤目录读 config.json（没有就创建，默认 0,0,0,1）
+        if (this.currentBoardSkin == null || "default".equalsIgnoreCase(this.currentBoardSkin)) {
+            return;
+        }
+        loadOrCreateSkinConfig(this.currentBoardSkin);
+
     }
+
+
+    private void writeeSkinConfig(String skin) {
+
+        File skinDir = findSkinDir(skin);
+
+        File cfgFile = new File(skinDir, "config.json");
+
+        String json = String.format(
+                "{%n  \"boardOffsetX\": %d,%n  \"pieceOffsetX\": %s,%n" +
+                        "  \"pieceOffsetY\": %s,%n  \"pieceScale\": %s%n}%n",
+                prop.getBoardOffsetX(),
+                prop.getPieceOffsetX(),
+                prop.getPieceOffsetY(),
+                prop.getPieceScale());
+        try {
+            java.nio.file.Files.writeString(
+                    cfgFile.toPath(), json, java.nio.charset.StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private void loadOrCreateSkinConfig(String skin) {
+
+        File skinDir = findSkinDir(skin);
+        if (skinDir == null) return;
+
+        File cfgFile = new File(skinDir, "config.json");
+
+        if (!cfgFile.exists()) {
+            prop.setBoardOffsetX(0);
+            prop.setPieceOffsetX(0.0);
+            prop.setPieceOffsetY(0.0);
+            prop.setPieceScale(1.0);
+
+            String json = String.format(
+                    "{%n  \"boardOffsetX\": %s,%n  \"pieceOffsetX\": %s,%n" +
+                            "  \"pieceOffsetY\": %s,%n  \"pieceScale\": %s%n}%n",
+                    0, 0, 0, 1);
+            try {
+                java.nio.file.Files.writeString(
+                        cfgFile.toPath(), json, java.nio.charset.StandardCharsets.UTF_8);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return;
+        }
+
+        try {
+            String json = java.nio.file.Files.readString(
+                    cfgFile.toPath(), java.nio.charset.StandardCharsets.UTF_8);
+            prop.setBoardOffsetX((int)readDouble(json, "boardOffsetX", 0));
+            prop.setPieceOffsetX(readDouble(json, "pieceOffsetX", 0));
+            prop.setPieceOffsetY(readDouble(json, "pieceOffsetY", 0));
+            prop.setPieceScale(readDouble(json, "pieceScale",   1));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private double readDouble(String json, String key, double def) {
+        java.util.regex.Matcher m = java.util.regex.Pattern
+                .compile("\"" + key + "\"\\s*:\\s*(-?\\d*\\.?\\d+)")
+                .matcher(json);
+        return m.find() ? Double.parseDouble(m.group(1)) : def;
+    }
+
+
+    /** 从 jarPath 往上找 skin/<皮肤名> */
+    private File findSkinDir(String skin) {
+        File dir = new File("skin", skin);
+        if (dir.isDirectory()) return dir;
+
+        if (dir.mkdirs()) return dir;
+        return null;
+    }
+
+    /** 皮肤配置 */
 
     @FXML
     void shadow(ActionEvent event) {
@@ -685,6 +778,7 @@ public class Controller implements EngineCallBack, LinkerCallBack, ChessManualCa
     void colorSettingClick(ActionEvent e) {
         if (App.openColorSetting()) {
             App.refreshTheme();
+            writeeSkinConfig(this.currentBoardSkin);
             board.refresh();
         }
     }

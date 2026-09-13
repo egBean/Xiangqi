@@ -155,6 +155,7 @@ public class ColorSettingController {
         prop.setPieceScale(pieceScale.getValue()==null?0:pieceScale.getValue());
         prop.setBoardOffsetX(boardOffsetX.getValue() == null ? 0 : boardOffsetX.getValue());
         prop.save();
+
         saved = true;
         close();
     }
