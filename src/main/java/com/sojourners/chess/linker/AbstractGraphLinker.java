@@ -3,6 +3,7 @@ package com.sojourners.chess.linker;
 import com.sojourners.chess.board.ChessBoard;
 import com.sojourners.chess.config.Properties;
 import com.sojourners.chess.util.XiangqiUtils;
+import com.sojourners.chess.yolo.ChessRecognitionModel;
 import com.sojourners.chess.yolo.OnnxModel;
 import com.sojourners.chess.yolo.Yolo11Model;
 
@@ -46,7 +47,7 @@ public abstract class AbstractGraphLinker implements GraphLinker, Runnable {
         this.callBack = callBack;
         robot = new Robot();
         this.count = 0;
-        this.aiModel = new Yolo11Model();
+        this.aiModel = new ChessRecognitionModel();
         this.prop = Properties.getInstance();
         this.pause = false;
     }
