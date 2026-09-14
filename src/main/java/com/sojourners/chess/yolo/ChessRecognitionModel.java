@@ -201,22 +201,21 @@ public class ChessRecognitionModel extends OnnxModel {
     }
 
     /**
-     * 将 10x9 的 board 数组上下翻转（行顺序颠倒）。
-     */
-    /**
-     * 将 10x9 的 board 数组上下翻转（行顺序颠倒）。
-     *
-     * <p>仅交换 board[i][j] 与 board[rows-1-i][j]，列索引 j 保持不变，
-     * 因此不会影响左右方向。</p>
+     * 旋转180度
      */
     private void flipBoardVertical(char[][] board) {
         int rows = board.length;
         int cols = board[0].length;
-        for (int i = 0; i < rows / 2; i++) {
+        for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                char tmp = board[i][j];
-                board[i][j] = board[rows - 1 - i][j];
-                board[rows - 1 - i][j] = tmp;
+                int ri = rows - 1 - i;
+                int rj = cols - 1 - j;
+                // 只处理对称对中“靠前”的那个位置，避免交换两次
+                if (i < ri || (i == ri && j < rj)) {
+                    char tmp = board[i][j];
+                    board[i][j] = board[ri][rj];
+                    board[ri][rj] = tmp;
+                }
             }
         }
     }
