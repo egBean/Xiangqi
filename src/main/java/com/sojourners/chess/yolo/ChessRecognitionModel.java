@@ -159,7 +159,7 @@ public class ChessRecognitionModel extends OnnxModel {
                 try (OrtSession.Result results = session.run(container)) {
                     float[] output = ((OnnxTensor) results.get(0)).getFloatBuffer().array();
                     boolean ok = decodeBoard(output, board);
-                    if (ok && flipVertical) {
+                    if (flipVertical) {
                         flipBoardVertical(board);
                     }
                     return ok;
