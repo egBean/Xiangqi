@@ -47,8 +47,8 @@ public abstract class AbstractGraphLinker implements GraphLinker, Runnable {
         this.callBack = callBack;
         robot = new Robot();
         this.count = 0;
-        this.aiModel = new ChessRecognitionModel();
         this.prop = Properties.getInstance();
+        this.aiModel = "yolo11".equalsIgnoreCase(prop.getLinkAiModel()) ? new Yolo11Model() : new ChessRecognitionModel();
         this.pause = false;
     }
 
