@@ -147,6 +147,11 @@ public class ChessRecognitionModel extends OnnxModel {
                 return false;
             }
 
+            // 棋盘大致竖直（将帅位于上下两侧、左右倾斜不超过 30 度）时，
+            // 按原图中的真实方位重排角点，保证变换后棋盘方向与原图一致：
+            // 原图黑方在下方 → board[9] 也是黑方。
+            corners = alignCorners(corners);
+
             BufferedImage warped = warpPerspective(img, corners, REG_SIZE, REG_SIZE);
             float[][][][] input = toTensor(warped, REG_SIZE, REG_SIZE);
 
@@ -163,6 +168,46 @@ public class ChessRecognitionModel extends OnnxModel {
             e.printStackTrace();
             return false;
         }
+    }
+
+    /**
+     * 按图像中的真实方位重排角点，使其严格对应 左上、右上、左下、右下。
+     *
+     * <p>仅当棋盘大致竖直——即顶边与水平线夹角小于 30 度时生效。
+     * 这样能保证透视变换后的棋盘方向与原图一致：
+     * {@code board[0][*]} 对应原图上方，{@code board[9][*]} 对应原图下方，
+     * 因此“原图黑方在下方”时识别结果的第 9 行也是黑方。</p>
+     *
+     * <p>若倾斜超过 30 度（例如棋盘旋转了 90 度），保持原有顺序不做调整，
+     * 避免把本来正确的关键点顺序打乱。</p>
+     */
+    private float[][] alignCorners(float[][] corners) {
+        // 按 y 坐标排序：前两个是图像上方，后两个是图像下方
+        float[][] sorted = corners.clone();
+        java.util.Arrays.sort(sorted, (a, b) -> Float.compare(a[1], b[1]));
+
+        float[] topA = sorted[0], topB = sorted[1];
+        float[] botA = sorted[2], botB = sorted[3];
+
+        // 上方两个按 x 排序：x 小的是左上，x 大的是右上
+        float[] topLeft  = topA[0] <= topB[0] ? topA : topB;
+        float[] topRight = topA[0] <= topB[0] ? topB : topA;
+
+        // 下方两个按 x 排序：x 小的是左下，x 大的是右下
+        float[] botLeft  = botA[0] <= botB[0] ? botA : botB;
+        float[] botRight = botA[0] <= botB[0] ? botB : botA;
+
+        // 计算顶边相对水平线的倾斜角
+        double dx = topRight[0] - topLeft[0];
+        double dy = topRight[1] - topLeft[1];
+        double tilt = Math.toDegrees(Math.atan2(Math.abs(dy), Math.abs(dx)));
+
+        if (tilt > 30) {
+            // 倾斜过大，说明可能不是“将帅上下分布”的常规对局截图，保持原顺序
+            return corners;
+        }
+
+        return new float[][]{topLeft, topRight, botLeft, botRight};
     }
 
     /**
